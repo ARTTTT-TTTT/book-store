@@ -104,6 +104,9 @@ function Navbar() {
                         <li>
                             <a href="/">About</a>
                         </li>
+                        <li>
+                            <a href="/login">Login</a>
+                        </li>
                     </ul>
                 </li>
 
