@@ -1,11 +1,12 @@
 // Your web app's Firebase configuration
 var firebaseConfig = {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
+  apiKey: "AIzaSyAomlWNc5V6WxJPcl-F7r5V4OzIBmjk-O8",
+  authDomain: "cloud-hosting-240-229.firebaseapp.com",
+  databaseURL: "https://cloud-hosting-240-229-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "cloud-hosting-240-229",
+  storageBucket: "cloud-hosting-240-229.appspot.com",
+  messagingSenderId: "301048891832",
+  appId: "1:301048891832:web:c4046c517e72d262bbe74d"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
