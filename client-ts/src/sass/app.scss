@@ -1,0 +1,51 @@
+@use "reset";
+@use "home";
+@use "navbar";
+@use "footer";
+
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700&display=swap");
+
+:root {
+  /* Palette */
+  --primary-color: #22223b;
+  --secondary-color: #4a4e69;
+  --tertiary-color: #9a8c98;
+  --quaternary-color: #c9ada7;
+  --quinary-color: #f2e9e4;
+
+  /* Colors */
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+
+  /* Fonts */  /* based on the following type-scale https://type-scale.com/?size=16&scale=1.200&text=MDN%20Web%20Docs&font=Inter&fontweight=400&bodyfont=body_font_default&bodyfontweight=400&lineheight=1.75&backgroundcolor=%23ffffff&fontcolor=%23000000&preview=false */
+  --font-family: "Kanit", sans-serif;
+  --font-size-base: 1rem;
+  --smaller-font-size: 0.833rem;
+  --tiny-font-size: 0.694rem;
+  --line-height-base: 1.5;
+  --heading-font-family: "Kanit", sans-serif;
+  --h1-font-size: 3rem;
+  --h2-font-size: 2.5rem;
+  --h3-font-size: 2rem;
+  --h4-font-size: 1.5rem;
+  --h5-font-size: 1.25rem;
+  --h6-font-size: 1rem;
+
+  /* Spacing */
+  --spacing-unit: 1rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Border */
+  --border-radius: 0.25rem;
+  --border-width: 1px;
+  --border-color: #dee2e6;
+
+  /* Grid and Layout */
+  --max-width: 1440px;
+  --gutter: 1rem; /* Space between content and browser window */
+}
