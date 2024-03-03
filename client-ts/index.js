@@ -61,6 +61,54 @@ const handleLogin = () => {
          });
  };
 
+ function register () {
+    // Get all our input fields
+    email = document.getElementById('email').value
+    password = document.getElementById('password').value
+    full_name = document.getElementById('full_name').value
+  
+    // Validate input fields
+    if (validate_email(email) == false || validate_password(password) == false) {
+      alert('Email or Password is Outta Line!!')
+      return
+      // Don't continue running the code
+    }
+    if (validate_field(full_name) == false) {
+      alert('One or More Extra Fields is Outta Line!!')
+      return
+    }
+   
+    // Move on with Auth
+    auth.createUserWithEmailAndPassword(email, password)
+    .then(function() {
+      // Declare user variable
+      var user = auth.currentUser
+  
+      // Add this user to Firebase Database
+      var database_ref = database.ref()
+  
+      // Create User data
+      var user_data = {
+        email : email,
+        full_name : full_name,
+        last_login : Date.now()
+      }
+  
+      // Push to Firebase Database
+      database_ref.child('users/' + user.uid).set(user_data)
+  
+      // DOne
+      alert('User Created')
+    })
+    .catch(function(error) {
+      // Firebase will use this to alert of its errors
+      var error_code = error.code
+      var error_message = error.message
+  
+      alert(error_message)
+    })
+  }
+
  function validate_email(email) {
         expression = /^[^@]+@\w+(\.\w+)+\w$/;
         if (expression.test(email) == true) {
