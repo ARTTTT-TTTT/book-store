@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import Button from "@mui/material/Button";
@@ -16,6 +21,49 @@ function LoginPage() {
     const auth = getAuth();
     const navigate = useNavigate();
     const [authing, setAuthing] = useState(false);
+
+    const [authenticating, setAuthenticating] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [error, setError] = useState<string>("");
+
+    const signInWithEmailAndPasswordHandler = () => {
+        if (error !== "") setError("");
+
+        setAuthenticating(true);
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((result) => {
+                console.log("Login successful:", result);
+                navigate("/");
+            })
+            .catch((error) => {
+                console.error("Error during login:", error);
+
+                if (
+                    error.code === "auth/user-not-found" ||
+                    error.code === "auth/wrong-password"
+                ) {
+                    setError("Invalid email or password. Please try again.");
+                } else if (error.code === "auth/invalid-email") {
+                    setError(
+                        "Invalid email format. Please enter a valid email address."
+                    );
+                } else if (error.code === "auth/missing-password") {
+                    setError("Please enter a password.");
+                } else if (error.code === "auth/invalid-credential") {
+                    setError(
+                        "Invalid credentials. Please check your email and password."
+                    );
+                } else {
+                    setError(
+                        "An error occurred during sign-in. Please try again later."
+                    );
+                }
+
+                setAuthenticating(false);
+            });
+    };
 
     const signInWithGoogle = async () => {
         setAuthing(true);
@@ -64,15 +112,6 @@ function LoginPage() {
         },
     });
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
-    };
-
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
@@ -91,7 +130,7 @@ function LoginPage() {
                     </Typography>
                     <Box
                         component="form"
-                        onSubmit={handleSubmit}
+                        //onSubmit={}
                         noValidate
                         sx={{ mt: 1 }}
                     >
@@ -104,6 +143,8 @@ function LoginPage() {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            onChange={(event) => setEmail(event.target.value)}
+                            value={email}
                         />
                         <TextField
                             margin="normal"
@@ -114,12 +155,19 @@ function LoginPage() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            onChange={(event) =>
+                                setPassword(event.target.value)
+                            }
+                            value={password}
                         />
+                        <small className="text-danger">{error}</small>
                         <Button
+                            disabled={authenticating}
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            onClick={() => signInWithEmailAndPasswordHandler()}
                         >
                             Sign In
                         </Button>

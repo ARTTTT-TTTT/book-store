@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import Button from "@mui/material/Button";
@@ -16,6 +21,42 @@ function RegisterPage() {
     const auth = getAuth();
     const navigate = useNavigate();
     const [authing, setAuthing] = useState(false);
+
+    const [registering, setRegistering] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [confirm, setConfirm] = useState<string>("");
+    const [error, setError] = useState<string>("");
+
+    const signUpWithEmailAndPassword = () => {
+        if (password !== confirm) {
+            setError("Please make sure your passwords match.");
+            return;
+        }
+
+        if (error !== "") setError("");
+
+        setRegistering(true);
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((result) => {
+                console.log("Registration successful:", result);
+                navigate("/login");
+            })
+            .catch((error) => {
+                console.error("Error during registration:", error);
+
+                if (error.code === "auth/weak-password") {
+                    setError("Please enter a stronger password.");
+                } else if (error.code === "auth/email-already-in-use") {
+                    setError("Email already in use.");
+                } else {
+                    setError("Unable to register. Please try again later.");
+                }
+
+                setRegistering(false);
+            });
+    };
 
     const signInWithGoogle = async () => {
         setAuthing(true);
@@ -64,15 +105,6 @@ function RegisterPage() {
         },
     });
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
-    };
-
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
@@ -92,31 +124,10 @@ function RegisterPage() {
                     <Box
                         component="form"
                         noValidate
-                        onSubmit={handleSubmit}
+                        //onSubmit={}
                         sx={{ mt: 3 }}
                     >
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="firstName"
-                                    required
-                                    fullWidth
-                                    id="firstName"
-                                    label="First Name"
-                                    autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
-                                />
-                            </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     required
@@ -124,7 +135,13 @@ function RegisterPage() {
                                     id="email"
                                     label="Email Address"
                                     name="email"
+                                    type="email"
                                     autoComplete="email"
+                                    autoFocus
+                                    onChange={(event) =>
+                                        setEmail(event.target.value)
+                                    }
+                                    value={email}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -132,18 +149,38 @@ function RegisterPage() {
                                     required
                                     fullWidth
                                     name="password"
+                                    id="password"
                                     label="Password"
                                     type="password"
-                                    id="password"
-                                    autoComplete="new-password"
+                                    onChange={(event) =>
+                                        setPassword(event.target.value)
+                                    }
+                                    value={password}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="confirm"
+                                    id="confirm"
+                                    label="Confirm Password"
+                                    type="password"
+                                    onChange={(event) =>
+                                        setConfirm(event.target.value)
+                                    }
+                                    value={confirm}
                                 />
                             </Grid>
                         </Grid>
+                        <small className="text-danger">{error}</small>
                         <Button
+                            disabled={registering}
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            onClick={() => signUpWithEmailAndPassword()}
                         >
                             Sign Up
                         </Button>
