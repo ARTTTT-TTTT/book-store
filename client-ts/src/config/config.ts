@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore/lite";
 
 export const config = {
     firebaseConfig: {
@@ -12,4 +13,5 @@ export const config = {
     },
 };
 
-initializeApp(config.firebaseConfig);
+const app = initializeApp(config.firebaseConfig);
+export const db = getFirestore(app);

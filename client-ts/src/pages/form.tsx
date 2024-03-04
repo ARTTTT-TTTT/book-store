@@ -1,16 +1,46 @@
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
-
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import { TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-function FormPage() {
+import React, { useState } from "react";
+import { collection, addDoc } from "firebase/firestore/lite";
 
-    
+import Navbar from "../components/navbar";
+import Footer from "../components/footer";
+import { Book } from "../models/BookModel";
+import { db } from "../config/config";
+
+function FormPage() {
+    const [name, setName] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    const [year, setYear] = useState<number | string>("");
+
+    const SubmitAddBooks = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!name || !description || !year) {
+            console.error("Please fill in all fields");
+            return;
+        }
+
+        try {
+            const docRef = await addDoc(collection(db, "Book"), {
+                name: name,
+                description: description,
+                year: typeof year === "number" ? year : parseInt(year, 10),
+            } as Book);
+
+            window.location.reload();
+
+            console.log("Document written with ID: ", docRef.id);
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+    };
+
     const defaultTheme = createTheme({
         typography: {
             fontFamily: "var(--font-family)",
@@ -21,15 +51,6 @@ function FormPage() {
             },
         },
     });
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
-    };
 
     return (
         <main>
@@ -53,12 +74,7 @@ function FormPage() {
                                         justifyContent: "center",
                                     }}
                                 >
-                                    <Box
-                                        component="form"
-                                        onSubmit={handleSubmit}
-                                        noValidate
-                                        sx={{ mt: 1 }}
-                                    >
+                                    <form onSubmit={SubmitAddBooks} noValidate>
                                         <TextField
                                             margin="normal"
                                             required
@@ -66,16 +82,22 @@ function FormPage() {
                                             id="name"
                                             label="Name"
                                             name="name"
+                                            onChange={(e) =>
+                                                setName(e.target.value)
+                                            }
                                         />
                                         <TextField
                                             margin="normal"
                                             required
                                             fullWidth
                                             multiline
-                                            rows={4} // You can adjust the number of rows as needed
+                                            rows={4}
                                             name="description"
                                             label="Description"
                                             id="description"
+                                            onChange={(e) =>
+                                                setDescription(e.target.value)
+                                            }
                                         />
                                         <TextField
                                             margin="normal"
@@ -86,9 +108,14 @@ function FormPage() {
                                             label="Year"
                                             id="year"
                                             inputProps={{
-                                                min: 1900, // ปีต่ำสุดที่ยอมรับ
-                                                max: new Date().getFullYear(), // ปีปัจจุบัน
+                                                min: 1900,
+                                                max: new Date().getFullYear(),
                                             }}
+                                            onChange={(e) =>
+                                                setYear(
+                                                    parseInt(e.target.value)
+                                                )
+                                            }
                                         />
                                         <Button
                                             type="submit"
@@ -98,16 +125,16 @@ function FormPage() {
                                         >
                                             Add Books
                                         </Button>
-                                    </Box>
+                                    </form>
                                 </Box>
                             </Container>
                         </ThemeProvider>
                     </div>
                 </div>
             </div>
-            <div className="lower">
+            <footer>
                 <Footer />
-            </div>
+            </footer>
         </main>
     );
 }

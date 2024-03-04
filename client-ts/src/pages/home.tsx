@@ -1,18 +1,13 @@
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore/lite";
+
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-
-import { useEffect, useState } from "react";
-import { initializeApp } from "firebase/app";
-import { config } from "../config/config";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
 import { Book } from "../models/BookModel";
-
-
+import { db } from "../config/config";
 
 function HomePage() {
     const [dataFromDatabase, setDataFromDatabase] = useState<Book[]>([]);
-    const app = initializeApp(config.firebaseConfig);
-    const db = getFirestore(app);
 
     const fetchBook = async () => {
         const BookCollection = collection(db, "Book");
@@ -28,7 +23,7 @@ function HomePage() {
             };
         });
         setDataFromDatabase(BookList);
-        console.log(dataFromDatabase, BookList);
+        console.log(BookList);
     };
 
     useEffect(() => {
