@@ -20,8 +20,6 @@ function AuthRoute({ element }: { element: React.ReactElement }) {
         return () => AuthCheck();
     }, [auth, navigate]);
 
-    if (loading) return <p>loading ...</p>;
-
     return element;
 }
 

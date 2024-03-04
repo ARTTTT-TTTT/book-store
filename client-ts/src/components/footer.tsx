@@ -107,7 +107,7 @@ function Footer() {
                     <a href="#">
                         Copyright{" "}
                         <i className="fa fa-copyright" aria-hidden="true"></i>{" "}
-                        2023 Web Demo for Cloud Project
+                        Web Demo for Cloud Project 2024
                     </a>
                 </div>
             </div>

@@ -1,18 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/home";
-import Login from "./pages/login";
-import { initializeApp } from "firebase/app";
-import { config } from "./config/config";
-import AuthRoute from "./components/AuthRoute";
 
-initializeApp(config.firebaseConfig);
+import AuthRoute from "./components/AuthRoute";
+import HomePage from "./pages/home";
+import LoginPage from "./pages/login";
+import FormPage from "./pages/form";
+import RegisterPage from "./pages/register";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<AuthRoute element={<Home />} />} />
-                <Route path="/login" element={<Login />} />
+                <Route
+                    path="/"
+                    element={<AuthRoute element={<HomePage />} />}
+                />
+                <Route
+                    path="/form"
+                    element={<AuthRoute element={<FormPage />} />}
+                />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
             </Routes>
         </BrowserRouter>
     );

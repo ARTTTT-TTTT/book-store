@@ -73,7 +73,11 @@ function Navbar() {
                         Home
                     </a>
                 </li>
-
+                <li>
+                    <a className="navbar-menu" href="/form">
+                        Add Books
+                    </a>
+                </li>
                 <li>
                     <a className="navbar-menu" href="#">
                         Contact
@@ -100,6 +104,9 @@ function Navbar() {
                     >
                         <li>
                             <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/form">Add Books</a>
                         </li>
                         <li>
                             <a href="/">Contact</a>
