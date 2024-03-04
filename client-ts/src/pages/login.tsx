@@ -24,7 +24,7 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
     };
 
     return (
-        <div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <p>Login Page</p>
             <button onClick={() => signInWithGoogle()} disabled={authing}>
                 Sign in with Google
