@@ -9,8 +9,8 @@ function Home() {
                 <Navbar />
             </div>
             <div className="middle">
-              <Content />
-              </div>
+                <Content />
+            </div>
             <div className="lower">
                 <Footer />
             </div>

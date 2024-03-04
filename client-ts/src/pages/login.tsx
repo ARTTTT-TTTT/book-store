@@ -1,56 +1,36 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
-    // Define state variables for inputs
-    const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+export interface ILoginPageProps {}
 
-    
+const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
+    const auth = getAuth();
+    const navigate = useNavigate();
+    const [authing, setAuthing] = useState(false);
 
+    const signInWithGoogle = async () => {
+        setAuthing(true);
+
+        signInWithPopup(auth, new GoogleAuthProvider())
+            .then((response) => {
+                console.log(response.user.uid);
+                navigate("/");
+            })
+            .catch((error) => {
+                console.log(error);
+                setAuthing(false);
+            });
+    };
 
     return (
-        <div id="content_container">
-            <div id="form_container">
-                <div id="form_header_container">
-                    <h2 id="form_header"> Login + Firebase Database </h2>
-                </div>
-
-                <div id="form_content_container">
-                    <div id="form_content_inner_container">
-                        {/* Use controlled components for inputs */}
-                        <input
-                            type="text"
-                            id="full_name"
-                            placeholder="Full name"
-                            value={fullName}
-                            onChange={(e) => setFullName(e.target.value)}
-                        />
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="New Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-
-                        <div id="button_container">
-                            {/* Attach event handlers directly */}
-                            <button onClick={handleLogin}>Login</button>
-                            <button onClick={handleRegister}>Register</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div>
+            <p>Login Page</p>
+            <button onClick={() => signInWithGoogle()} disabled={authing}>
+                Sign in with Google
+            </button>
         </div>
     );
-}
+};
 
-export default Login;
+export default LoginPage;

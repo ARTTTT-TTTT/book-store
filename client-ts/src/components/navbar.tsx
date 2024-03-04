@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import avatar from "../assets/avatar.png";
+import { getAuth, signOut } from "firebase/auth";
 
 function PopUp(id: string, setState: Function) {
     let popUpMenu = document.getElementById(id);
@@ -42,6 +43,8 @@ function Navbar() {
     const [popUpList, setPopUpList] = useState<boolean>(false);
     const [popUpAvatar, setPopUpAvatar] = useState<boolean>(false);
     const [popUpMenu, setPopUpMenu] = useState<boolean>(false);
+
+    const auth = getAuth();
 
     function showPopupListProjectMenu() {
         PopUp("popUplistProjectMenu", setPopUpList);
@@ -104,9 +107,6 @@ function Navbar() {
                         <li>
                             <a href="/">About</a>
                         </li>
-                        <li>
-                            <a href="/login">Login</a>
-                        </li>
                     </ul>
                 </li>
 
@@ -130,7 +130,7 @@ function Navbar() {
                             <a href="/">Setting</a>
                         </li>
                         <li className="navbar-popup-menu-avatarmenu-signout">
-                            <a href="/">Sign out</a>
+                            <a onClick={() => signOut(auth)}>Sign out</a>
                         </li>
                     </ul>
                 </li>

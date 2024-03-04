@@ -3,7 +3,7 @@ footer {
     height: auto;
     display: flex;
     color: #f2e9e4;
-    padding: 1.5rem;
+    padding: var(--spacing-unit);
     align-items: center;
     flex-direction: column;
     justify-content: center;
