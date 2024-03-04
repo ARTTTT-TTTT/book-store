@@ -9,54 +9,57 @@
     justify-content: center;
     cursor: pointer;
 
-    .content-main {
+    .content-header {
+        padding-top: var(--spacing-md);
+        padding-bottom: var(--spacing-unit);
+        border-bottom: 2px solid rgba(120, 120, 120, 0.4);
+        margin-bottom: var(--spacing-md);
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        max-width: var(--max-width);
+        align-items: center;
+        justify-content: center;
+
+        &,
+        h3 {
+            font-weight: 600;
+            font-size: var(--h3-font-size);
+            color: var(--primary-color);
+        }
+    }
+
+    .content-body {
         display: flex;
         flex-direction: column;
         width: 95%;
         max-width: var(--max-width);
         height: auto;
-        
+        overflow-x: auto; // Add this line
 
-        .content-header {
-            padding-top: var(--spacing-md);
-            padding-bottom: var(--spacing-unit);
-            border-bottom: 2px solid rgba(120, 120, 120, 0.4);
-            margin-bottom: var(--spacing-md);
-            
-            display: flex;
+        table {
             align-items: center;
             justify-content: center;
+            flex-direction: column;
 
-            &,
-            h3 {
-                
-                font-weight: 600;
-                font-size: var(--h3-font-size);
-                color: var(--primary-color);
-            }
-        }
-
-        .content-table {
-            width: 100%;
-            border-collapse: collapse;
+            max-width: var(--max-width);
+            height: auto;
+            border: 1px solid #ddd;
             color: rgba(0, 0, 0, 0.5);
 
             th,
             td {
-                border: 2px solid #ddd;
-                padding: 8px;
                 text-align: left;
+                padding: 8px;
             }
 
             th {
-                font-weight: 600;
                 font-size: var(--font-size-base);
                 background-color: #6272a4;
                 color: #f2e9e4;
             }
 
             td {
-                font-weight: 300;
                 font-size: var(--font-size-base);
             }
 

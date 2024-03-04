@@ -1,25 +1,42 @@
-function Content() {
+import { useEffect, useState } from "react";
+import { initializeApp } from "firebase/app";
+import { config } from "../config/config";
+import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { Book } from "../models/BookModel";
 
-    const dataFromDatabase = [
-        { id: 1, name: "Item 1" },
-        { id: 2, name: "Item 2" },
-        { id: 3, name: "Item 3" },
-        { id: 4, name: "Item 3" },
-        { id: 5, name: "Item 3" },
-        { id: 6, name: "Item 3", description: "", year: "" },
-        { id: 7, name: "Item 3", description: "", year: "" },
-        { id: 8, name: "Item 3", description: "", year: "" },
-        { id: 9, name: "Item 3", description: "", year: "" },
-        { id: 10, name: "Item 3", description: "", year: "" },
-    ];
+function Content() {
+    const [dataFromDatabase, setDataFromDatabase] = useState<Book[]>([]);
+    const app = initializeApp(config.firebaseConfig);
+    const db = getFirestore(app);
+
+    const fetchBook = async () => {
+        const BookCollection = collection(db, "Book");
+        const BookSnapshot = await getDocs(BookCollection);
+        const BookList: Book[] = BookSnapshot.docs.map((doc) => {
+            const bookData = doc.data();
+            const bookId = doc.id;
+            return {
+                docId: bookId,
+                name: bookData.name,
+                description: bookData.description,
+                year: bookData.year,
+            };
+        });
+        setDataFromDatabase(BookList);
+        console.log(dataFromDatabase, BookList);
+    };
+
+    useEffect(() => {
+        fetchBook();
+    }, []);
 
     return (
         <div className="content">
-            <div className="content-main">
-                <div className="content-header">
-                    <h3>Book Lists</h3>
-                </div>
-                <table className="content-table">
+            <div className="content-header">
+                <h3>Book Lists</h3>
+            </div>
+            <div className="content-body">
+                <table>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -30,8 +47,8 @@ function Content() {
                     </thead>
                     <tbody>
                         {dataFromDatabase.map((item) => (
-                            <tr key={item.id}>
-                                <td>{item.id}</td>
+                            <tr key={item.docId}>
+                                <td>{item.docId}</td>
                                 <td>{item.name}</td>
                                 <td>{item.description}</td>
                                 <td>{item.year}</td>
