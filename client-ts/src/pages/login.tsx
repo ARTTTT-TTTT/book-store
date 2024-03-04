@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-export interface ILoginPageProps {}
-
-const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
+function LoginPage() {
     const auth = getAuth();
     const navigate = useNavigate();
     const [authing, setAuthing] = useState(false);
@@ -24,13 +22,13 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div className="login">
             <p>Login Page</p>
             <button onClick={() => signInWithGoogle()} disabled={authing}>
                 Sign in with Google
             </button>
         </div>
     );
-};
+}
 
 export default LoginPage;

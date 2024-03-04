@@ -2,7 +2,7 @@ import Navbar from "../components/navbar";
 import Content from "../components/content";
 import Footer from "../components/footer";
 
-function Home() {
+function HomePage() {
     return (
         <main>
             <div className="toper">
@@ -18,4 +18,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default HomePage;
