@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore/lite";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { Book } from "../models/BookModel";
@@ -24,6 +24,22 @@ function EditPage() {
     const [bookDetails, setBookDetails] = useState<Book | null>(null);
     const navigate = useNavigate();
     let { book_id } = useParams();
+
+    const handleDelete = async () => {
+        if (!book_id) {
+            console.error("ID is undefined");
+            return;
+        }
+
+        try {
+            const bookRef = doc(db, "Book", book_id);
+            await deleteDoc(bookRef);
+            console.log("Document successfully deleted!");
+            navigate("/");
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+        }
+    };
 
     useEffect(() => {
         const fetchBookById = async () => {
@@ -59,6 +75,7 @@ function EditPage() {
         };
 
         fetchBookById();
+        handleDelete;
     }, [book_id]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -66,7 +83,7 @@ function EditPage() {
 
         if (error !== "") setError("");
 
-        if (!name || !author || !description || !year || !price) {
+        if (!name || !author || !image || !description || !year || !price) {
             setError("Please fill in all fields.");
             console.error("Please fill in all fields");
             return;
@@ -223,6 +240,22 @@ function EditPage() {
                                             Update Book
                                         </Button>
                                     </form>
+                                    <Button
+                                        type="button"
+                                        fullWidth
+                                        variant="contained"
+                                        sx={{
+                                            mt: 3,
+                                            mb: 2,
+                                            backgroundColor: "red",
+                                            "&:hover": {
+                                                backgroundColor: "darkred", // Change to the desired hover color
+                                            },
+                                        }}
+                                        onClick={handleDelete}
+                                    >
+                                        Delete Book
+                                    </Button>
                                 </Box>
                             </Container>
                         </ThemeProvider>

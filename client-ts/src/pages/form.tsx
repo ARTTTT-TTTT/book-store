@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore/lite";
 
 import Navbar from "../components/navbar";
@@ -21,13 +22,14 @@ function FormPage() {
     const [year, setYear] = useState<number | string>("");
     const [price, setPrice] = useState<number | string>("");
     const [error, setError] = useState<string>("");
+    const navigate = useNavigate();
 
     const SubmitAddBooks = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (error !== "") setError("");
 
-        if (!name || !author || !description || !year || !price) {
+        if (!name || !author || !description || !image || !year || !price) {
             setError("Please fill in all fields.");
             console.error("Please fill in all fields");
             return;
@@ -43,7 +45,7 @@ function FormPage() {
                 price: typeof price === "number" ? price : parseInt(price, 10),
             } as Book);
 
-            window.location.reload();
+            navigate("/");
 
             console.log("Document written with ID: ", docRef.id);
         } catch (error) {
@@ -123,6 +125,7 @@ function FormPage() {
                                         />
                                         <TextField
                                             margin="normal"
+                                            required
                                             fullWidth
                                             name="image"
                                             label="Image (URL)"
