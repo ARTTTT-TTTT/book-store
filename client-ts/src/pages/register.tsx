@@ -47,7 +47,7 @@ function RegisterPage() {
                 console.error("Error during registration:", error);
 
                 if (error.code === "auth/weak-password") {
-                    setError("Please enter a stronger password.");
+                    setError("Password must be at least 6 characters long.");
                 } else if (error.code === "auth/email-already-in-use") {
                     setError("Email already in use.");
                 } else {

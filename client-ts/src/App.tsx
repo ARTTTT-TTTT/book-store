@@ -5,6 +5,7 @@ import HomePage from "./pages/home";
 import LoginPage from "./pages/login";
 import FormPage from "./pages/form";
 import RegisterPage from "./pages/register";
+import DetailPage from "./pages/detail";
 
 function App() {
     return (
@@ -13,6 +14,10 @@ function App() {
                 <Route
                     path="/"
                     element={<AuthRoute element={<HomePage />} />}
+                />
+                <Route
+                    path="/detail/:book_id"
+                    element={<AuthRoute element={<DetailPage />} />}
                 />
                 <Route
                     path="/form"

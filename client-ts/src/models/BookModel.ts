@@ -1,6 +1,9 @@
 export interface Book {
     docId: string;
     name: string;
+    author?: string;
     description: string;
-    year: number;
+    image: string;
+    year?: number;
+    price?: number;
 }

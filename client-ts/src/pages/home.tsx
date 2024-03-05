@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore/lite";
 
 import Navbar from "../components/navbar";
@@ -18,8 +19,11 @@ function HomePage() {
             return {
                 docId: bookId,
                 name: bookData.name,
-                description: bookData.description,
+                author: bookData.author,
+                description:"",
+                image:"",
                 year: bookData.year,
+                price: bookData.price,
             };
         });
         setDataFromDatabase(BookList);
@@ -46,17 +50,45 @@ function HomePage() {
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Description</th>
+                                    <th>Author</th>
+                                    {/*<th>Description</th>*/}
                                     <th>Year</th>
+                                    <th>Price</th>
+                                    <th>Options</th>
+                                    <th>Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {dataFromDatabase.map((item) => (
-                                    <tr key={item.docId}>
+                                    <tr>
                                         <td>{item.docId}</td>
                                         <td>{item.name}</td>
-                                        <td>{item.description}</td>
+                                        <td>{item.author}</td>
+                                        {/*<td>{item.description}</td>*/}
                                         <td>{item.year}</td>
+                                        <td>{item.price}</td>
+                                        <td>
+                                            <Link
+                                                key={item.docId}
+                                                to={`/detail/${item.docId}`}
+                                                style={{
+                                                    textDecoration: "none",
+                                                }}
+                                            >
+                                                Detail
+                                            </Link>
+                                        </td>
+                                        <td>
+                                        <Link
+                                            key={item.docId}
+                                            to={`/edit/${item.docId}`}
+                                            style={{
+                                                textDecoration: "none",
+                                            }}
+                                        >
+                                            Edit
+                                        </Link>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

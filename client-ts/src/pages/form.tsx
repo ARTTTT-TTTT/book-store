@@ -15,13 +15,20 @@ import { db } from "../config/config";
 
 function FormPage() {
     const [name, setName] = useState<string>("");
+    const [author, setAuthor] = useState<string>("");
     const [description, setDescription] = useState<string>("");
+    const [image, setImage] = useState<string>("");
     const [year, setYear] = useState<number | string>("");
+    const [price, setPrice] = useState<number | string>("");
+    const [error, setError] = useState<string>("");
 
     const SubmitAddBooks = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!name || !description || !year) {
+        if (error !== "") setError("");
+
+        if (!name || !author || !description || !year || !price) {
+            setError("Please fill in all fields.");
             console.error("Please fill in all fields");
             return;
         }
@@ -29,8 +36,11 @@ function FormPage() {
         try {
             const docRef = await addDoc(collection(db, "Book"), {
                 name: name,
+                author: author,
                 description: description,
+                image: image,
                 year: typeof year === "number" ? year : parseInt(year, 10),
+                price: typeof price === "number" ? price : parseInt(price, 10),
             } as Book);
 
             window.location.reload();
@@ -82,8 +92,20 @@ function FormPage() {
                                             id="name"
                                             label="Name"
                                             name="name"
+                                            autoFocus
                                             onChange={(e) =>
                                                 setName(e.target.value)
+                                            }
+                                        />
+                                        <TextField
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="author"
+                                            label="Author"
+                                            name="author"
+                                            onChange={(e) =>
+                                                setAuthor(e.target.value)
                                             }
                                         />
                                         <TextField
@@ -97,6 +119,16 @@ function FormPage() {
                                             id="description"
                                             onChange={(e) =>
                                                 setDescription(e.target.value)
+                                            }
+                                        />
+                                        <TextField
+                                            margin="normal"
+                                            fullWidth
+                                            name="image"
+                                            label="Image (URL)"
+                                            id="image"
+                                            onChange={(e) =>
+                                                setImage(e.target.value)
                                             }
                                         />
                                         <TextField
@@ -117,6 +149,26 @@ function FormPage() {
                                                 )
                                             }
                                         />
+                                        <TextField
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            type="number"
+                                            name="price"
+                                            label="Price"
+                                            id="price"
+                                            inputProps={{
+                                                min: 1,
+                                            }}
+                                            onChange={(e) =>
+                                                setPrice(
+                                                    parseInt(e.target.value)
+                                                )
+                                            }
+                                        />
+                                        <small className="text-danger">
+                                            {error}
+                                        </small>
                                         <Button
                                             type="submit"
                                             fullWidth

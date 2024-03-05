@@ -1,4 +1,4 @@
-.form {
+.detail {
     width: 100%;
     height: auto;
     display: flex;
@@ -8,7 +8,7 @@
     justify-content: center;
     cursor: pointer;
 
-    .form-header {
+    .detail-header {
         padding-top: var(--spacing-md);
         padding-bottom: var(--spacing-unit);
         border-bottom: 2px solid rgba(120, 120, 120, 0.4);
@@ -27,11 +27,36 @@
         }
     }
 
-    .form-body {
+    .detail-body {
         display: flex;
         flex-direction: column;
         width: 95%;
         max-width: var(--max-width);
         height: auto;
+        overflow-x: auto;
+        color: var(--primary-color);
+
+        .detail-image {
+            display: flex;
+            height: 350px;
+            border: 2px solid rgba(120, 120, 120, 0.4);
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: var(--spacing-unit);
+        }
+
+        .detail-name{
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            height: auto;
+        }
+
+        .detail-content {
+
+            display: flex;
+            flex-direction: column;
+        }
     }
 }
