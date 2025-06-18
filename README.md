@@ -1,6 +1,7 @@
 # 📚 Book Store
 
 [![Status: Final Project](https://img.shields.io/badge/Status-Final%20Project-blue)]()
+[![Status: Deprecated](https://img.shields.io/badge/Status-Deprecated-lightgrey)]()
 [![Platform: Web](https://img.shields.io/badge/Platform-Web-blue)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/github/v/release/ARTTTT-TTTT/book-store)](https://github.com/ARTTTT-TTTT/book-store/releases)
